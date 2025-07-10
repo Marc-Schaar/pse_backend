@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { PseElementsModule } from './apps/pse_elements/pse_elements.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { join } from 'path';
         synchronize: true,
       }),
     }),
+    PseElementsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
