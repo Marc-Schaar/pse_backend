@@ -25,9 +25,31 @@ $ npm run start:prod
 ##Start Server
 $ psql -h localhost -U testuser -d pse_element_db
 
+## Fill Database
+
+$ \copy pse_elements (
+  ordnungszahl,
+  symbol,
+  name,
+  atommasse,
+  aggregatzustand,
+  kategorie,
+  "siedepunkt_k",
+  "schmelzpunkt_k",
+  elektronegativitaet,
+  "dichte_g_cm3",
+  entdeckt,
+  oxidationszahlen,
+  gruppe,
+  periode
+) FROM 'chemische_elemente_118_mit_gruppe_periode.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
+
 ##Show Table
 $ \dt
 
+
+##Show Complete List
+$ SELECT * FROM pse_elements;
 
 
 ## Run tests

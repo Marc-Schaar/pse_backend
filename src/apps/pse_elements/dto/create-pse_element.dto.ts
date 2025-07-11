@@ -3,14 +3,14 @@ export class CreatePseElementDto {
   symbol: string;
   name: string;
   atommasse: number;
-  aggregatzustand: string;
+  aggregatzustand: 'Gas' | 'Flüssig' | 'Fest';
   kategorie: string;
-  siedepunkt: number;
-  schmelzpunkt: number;
+  siedepunkt_k: number;
+  schmelzpunkt_k: number;
   elektronegativitaet: number;
   dichte: number;
   entdeckt: string;
-  oxidationszahlen: number[];
-  gruppe: number;
+  oxidationszahlen: string;
+  gruppe: number | null;
   periode: number;
 }

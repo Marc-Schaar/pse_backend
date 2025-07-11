@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'pse_elements' })
 export class PseElement {
@@ -17,33 +24,61 @@ export class PseElement {
   @Column({ type: 'text' })
   atommasse: number;
 
+  // @ManyToOne(() => Aggregatzustand, (agg) => agg.elements, { eager: true })
+  // @JoinColumn({ name: 'aggregatzustand' })
   @Column({ type: 'text' })
-  aggregatzustand: string;
+  aggregatzustand: 'Gas' | 'Flüssig' | 'Fest';
 
+  // @ManyToOne(() => Kategorie, (kat) => kat.elements, { eager: true })
+  // @JoinColumn({ name: 'kategorie' })
   @Column({ type: 'text' })
   kategorie: string;
 
   @Column({ type: 'float' })
-  siedepunkt: number;
+  siedepunkt_k: number;
 
   @Column({ type: 'float' })
-  schmelzpunkt: number;
+  schmelzpunkt_k: number;
 
   @Column({ type: 'float' })
   elektronegativitaet: number;
 
   @Column({ type: 'float' })
-  dichte: number;
+  dichte_g_cm3: number;
 
   @Column({ type: 'text' })
   entdeckt: string;
 
-  @Column({ type: 'int', array: true })
-  oxidationszahlen: number[];
+  @Column({ type: 'text' })
+  oxidationszahlen: string;
 
-  @Column({ type: 'float' })
-  gruppe: number;
+  @Column({ type: 'float', nullable: true })
+  gruppe: number | null;
 
   @Column({ type: 'float' })
   periode: number;
 }
+
+// @Entity({ name: 'kategorien' })
+// export class Kategorie {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column({ type: 'text', unique: true })
+//   kategorie: string;
+
+//   @OneToMany(() => PseElement, (element) => element.kategorie)
+//   elements: PseElement[];
+// }
+
+// @Entity({ name: 'aggregatzustaende' })
+// export class Aggregatzustand {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column({ type: 'text', unique: true })
+//   zustand: 'gasförmig' | 'Flüssig' | 'Fest';
+
+//   @OneToMany(() => PseElement, (element) => element.aggregatzustand)
+//   elements: PseElement[];
+// }
