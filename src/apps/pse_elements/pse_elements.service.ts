@@ -18,7 +18,16 @@ export class PseElementsService {
   }
 
   async findAll() {
-    return await this.pseRepository.find();
+    return this.pseRepository.find({
+      select: [
+        'id',
+        'symbol',
+        'name',
+        'ordnungszahl',
+        'elektronegativitaet',
+        'atommasse',
+      ],
+    });
   }
 
   async findOne(id: number) {
