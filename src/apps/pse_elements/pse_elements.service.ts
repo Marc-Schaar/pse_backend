@@ -21,12 +21,12 @@ export class PseElementsService {
     return await this.pseRepository.find();
   }
 
-  async findOne(ordnungszahl: number) {
-    return await this.pseRepository.findOneBy({ ordnungszahl });
+  async findOne(id: number) {
+    return await this.pseRepository.findOneBy({ id });
   }
 
-  async update(ordnungszahl: number, updatePseElementDto: UpdatePseElementDto) {
-    const pseElement = await this.pseRepository.findOneBy({ ordnungszahl });
+  async update(id: number, updatePseElementDto: UpdatePseElementDto) {
+    const pseElement = await this.pseRepository.findOneBy({ id });
     if (!pseElement) {
       throw new NotFoundException();
     }
@@ -34,8 +34,8 @@ export class PseElementsService {
     return await this.pseRepository.save(pseElement);
   }
 
-  async remove(ordnungszahl: number) {
-    const pseElement = await this.pseRepository.findOneBy({ ordnungszahl });
+  async remove(id: number) {
+    const pseElement = await this.pseRepository.findOneBy({ id });
     if (!pseElement) {
       throw new NotFoundException();
     }
