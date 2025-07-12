@@ -26,6 +26,9 @@ export class PseElementsService {
         'ordnungszahl',
         'elektronegativitaet',
         'atommasse',
+        'kategorie',
+        'periode',
+        'gruppe',
       ],
     });
   }
