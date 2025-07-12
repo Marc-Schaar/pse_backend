@@ -42,7 +42,7 @@ $ \copy pse_elements (
   oxidationszahlen,
   gruppe,
   periode
-) FROM 'chemische_elemente_118_mit_gruppe_periode.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
+) FROM 'chemische_elements_correct_version.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
 
 ##Show Table
 $ \dt

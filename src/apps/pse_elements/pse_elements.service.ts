@@ -24,8 +24,6 @@ export class PseElementsService {
         'symbol',
         'name',
         'ordnungszahl',
-        'elektronegativitaet',
-        'atommasse',
         'kategorie',
         'periode',
         'gruppe',
