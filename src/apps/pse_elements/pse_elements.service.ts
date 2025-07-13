@@ -12,11 +12,20 @@ export class PseElementsService {
     private readonly pseRepository: Repository<PseElement>,
   ) {}
 
+  /**
+   * Creates a new element entry in the database.
+   * @param createPseElementDto DTO containing data for the new element.
+   * @returns The saved element entity.
+   */
   async create(createPseElementDto: CreatePseElementDto) {
     const pseElement = this.pseRepository.create(createPseElementDto);
     return await this.pseRepository.save(pseElement);
   }
 
+  /**
+   * Retrieves a list of all elements with selected fields.
+   * @returns Array of element entities.
+   */
   async findAll() {
     return this.pseRepository.find({
       select: [
@@ -31,10 +40,22 @@ export class PseElementsService {
     });
   }
 
+  /**
+   * Retrieves a single element by its ID.
+   * @param id Identifier of the element.
+   * @returns The found element or null if not found.
+   */
   async findOne(id: number) {
     return await this.pseRepository.findOneBy({ id });
   }
 
+  /**
+   * Updates an existing element by its ID.
+   * Throws NotFoundException if the element does not exist.
+   * @param id Identifier of the element to update.
+   * @param updatePseElementDto DTO containing updated data.
+   * @returns The updated element entity.
+   */
   async update(id: number, updatePseElementDto: UpdatePseElementDto) {
     const pseElement = await this.pseRepository.findOneBy({ id });
     if (!pseElement) {
@@ -44,6 +65,12 @@ export class PseElementsService {
     return await this.pseRepository.save(pseElement);
   }
 
+  /**
+   * Deletes an element by its ID.
+   * Throws NotFoundException if the element does not exist.
+   * @param id Identifier of the element to delete.
+   * @returns The removed element entity.
+   */
   async remove(id: number) {
     const pseElement = await this.pseRepository.findOneBy({ id });
     if (!pseElement) {

@@ -1,32 +1,83 @@
-## Description
+## Beschreibung
 
-## Project setup
+Dieses Projekt ist eine NestJS-Anwendung zur Verwaltung des Periodensystems der Elemente mit einer PostgreSQL-Datenbank.
+Das dazugehörige Frontend findest du [hier](https://github.com/Marc-Schaar/pse_frontend).
+
+## Projekt einrichten
 
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
+## Datenbank einrichten
+
+Wenn du das Projekt klonst, musst du eine neue PostgreSQL-Datenbank anlegen und konfigurieren:
+
+- PostgreSQL-Datenbank erstellen
 
 ```bash
-# development
-$ npm run start
+$ createdb pse_element_db
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Start PostgreSQL Server
+- Benutzer anlegen und Rechte vergeben
 
-````bash
-##Start Server
+```bash
+
+createuser testuser
+psql -c "ALTER USER testuser WITH PASSWORD 'testpassword';"
+psql -c "GRANT ALL PRIVILEGES ON DATABASE pse_element_db TO testuser;"
+
+```
+
+- .env-Datei anlegen
+
+Lege im Backend-Verzeichnis eine .env-Datei an mit den Datenbankverbindungsinformationen, z.B.:
+
+```bash
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=testuser
+DB_PASSWORD=testpassword
+DB_DATABASE=pse_element_db
+
+```
+
+- Tabellen und Daten importieren
+
+## Starte die Datenbank
+
+```bash
 $ psql -h localhost -U testuser -d pse_element_db
 
-## Fill Database
+```
 
+## Tabele formatieren
+
+```bash
+CREATE TABLE pse_elements (
+  id SERIAL PRIMARY KEY,
+  ordnungszahl INTEGER NOT NULL UNIQUE,
+  symbol VARCHAR(5) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  atommasse FLOAT,
+  aggregatzustand VARCHAR(50),
+  kategorie VARCHAR(50),
+  siedepunkt_k FLOAT,
+  schmelzpunkt_k FLOAT,
+  elektronegativitaet FLOAT,
+  dichte_g_cm3 FLOAT,
+  entdeckt VARCHAR(100),
+  oxidationszahlen VARCHAR(100),
+  gruppe INTEGER,
+  periode INTEGER
+);
+
+```
+
+## Importiere die Tabellen und Daten
+
+```bash
 $ \copy pse_elements (
   ordnungszahl,
   symbol,
@@ -44,63 +95,39 @@ $ \copy pse_elements (
   periode
 ) FROM 'chemische_elements_correct_version.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
 
-##Show Table
+
+##Tabellen anzeigen
 $ \dt
 
 
-##Show Complete List
+##Alle Einträge anzeigen
 $ SELECT * FROM pse_elements;
 
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-````
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## .env Datei erstellen
 
-## Resources
+Für die Konfiguration der Anwendung muss im Projektordner eine .env-Datei erstellt werden.
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=testuser
+DB_PASSWORD=dein_passwort
+DB_DATABASE=pse_element_db
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
 
-## Support
+## Projekt kompilieren und starten
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+# development
+$ npm run start
 
-## Stay in touch
+# watch mode
+$ npm run start:dev
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# production mode
+$ npm run start:prod
+```
