@@ -43,8 +43,6 @@ DB_DATABASE=pse_element_db
 
 ```
 
-- Tabellen und Daten importieren
-
 ## Starte die Datenbank
 
 ```bash
@@ -103,19 +101,6 @@ $ \dt
 ##Alle Einträge anzeigen
 $ SELECT * FROM pse_elements;
 
-
-```
-
-## .env Datei erstellen
-
-Für die Konfiguration der Anwendung muss im Projektordner eine .env-Datei erstellt werden.
-
-```bash
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=testuser
-DB_PASSWORD=dein_passwort
-DB_DATABASE=pse_element_db
 
 ```
 
