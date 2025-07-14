@@ -3,34 +3,69 @@
 Dieses Projekt ist eine NestJS-Anwendung zur Verwaltung des Periodensystems der Elemente mit einer PostgreSQL-Datenbank.
 Das dazugehörige Frontend findest du [hier](https://github.com/Marc-Schaar/pse_frontend).
 
+## Voraussetzungen
+
+Bevor du das Projekt einrichtest, stelle sicher, dass folgende Software auf deinem System installiert ist:
+
+### System
+
+- macOS (getestet mit macOS)
+- Terminal (Zsh oder Bash)
+
+### Software
+
+- Node.js ≥ 18.x
+- PostgreSQL 16.x
+- Git ≥ 2.x
+
+## Projekt clonen
+
+```bash
+git clone https://github.com/Marc-Schaar/pse_backend.git
+cd pse_backend
+```
+
 ## Projekt einrichten
 
 ```bash
 $ npm install
 ```
 
+## PostgreSQL Installieren (optional, falls nicht vorhanden)
+
+### MacOS
+
+```bash
+$ brew install postgresql@16
+$ brew services start postgresql@16
+
+```
+
+### Windows
+
+https://www.postgresql.org/download/windows/
+
 ## Datenbank einrichten
-
-Wenn du das Projekt klonst, musst du eine neue PostgreSQL-Datenbank anlegen und konfigurieren:
-
-- PostgreSQL-Datenbank erstellen
 
 ```bash
 $ createdb pse_element_db
+$ createuser testuser
+$ psql -d postgres
+
 
 ```
 
-- Benutzer anlegen und Rechte vergeben
+### Rechte vergeben
 
 ```bash
-
-createuser testuser
-psql -c "ALTER USER testuser WITH PASSWORD 'testpassword';"
-psql -c "GRANT ALL PRIVILEGES ON DATABASE pse_element_db TO testuser;"
+$ ALTER USER testuser WITH PASSWORD 'testpassword';
+$ GRANT ALL PRIVILEGES ON DATABASE pse_element_db TO testuser;
+$ ALTER USER testuser WITH SUPERUSER;
+\q
 
 ```
 
-- .env-Datei anlegen
+## .env-Datei anlegen
 
 Lege im Backend-Verzeichnis eine .env-Datei an mit den Datenbankverbindungsinformationen, z.B.:
 
@@ -43,7 +78,7 @@ DB_DATABASE=pse_element_db
 
 ```
 
-## Starte die Datenbank
+## Mit Datenbank verbinden
 
 ```bash
 $ psql -h localhost -U testuser -d pse_element_db
@@ -52,7 +87,7 @@ $ psql -h localhost -U testuser -d pse_element_db
 
 ## Tabele formatieren
 
-```bash
+```sql
 CREATE TABLE pse_elements (
   id SERIAL PRIMARY KEY,
   ordnungszahl INTEGER NOT NULL UNIQUE,
@@ -67,7 +102,7 @@ CREATE TABLE pse_elements (
   dichte_g_cm3 FLOAT,
   entdeckt VARCHAR(100),
   oxidationszahlen VARCHAR(100),
-  gruppe INTEGER,
+  gruppe FLOAT,
   periode INTEGER
 );
 
@@ -75,8 +110,8 @@ CREATE TABLE pse_elements (
 
 ## Importiere die Tabellen und Daten
 
-```bash
-$ \copy pse_elements (
+```sql
+\copy pse_elements (
   ordnungszahl,
   symbol,
   name,
@@ -93,12 +128,17 @@ $ \copy pse_elements (
   periode
 ) FROM 'chemische_elements_correct_version.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', NULL '');
 
+# > Hinweis: Die Datei `chemische_elements_correct_version.csv` muss im selben Verzeichnis liegen, in dem du `psql` gestartet hast. Sonst gib den Pfad absolut oder relativ an.
 
-##Tabellen anzeigen
+```
+
+## Datenbank prüfen
+
+```bash
+## Tabellen anzeigen
 $ \dt
 
-
-##Alle Einträge anzeigen
+## Alle Einträge anzeigen
 $ SELECT * FROM pse_elements;
 
 
